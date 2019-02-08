@@ -872,12 +872,13 @@ export default Kapsule({
       state.yAxis.tickFormat(d => reduceLabel(d.split('+&+')[1], maxChars));
       state.svg.select('g.y-axis')
         .transition().duration(state.transDuration)
-          .attr('transform', 'translate(' + state.graphW + ', 0)')
+          // .attr('transform', 'translate(' + state.graphW + ', 0)')
           .style('font-size', fontSize + 'px')
           .call(state.yAxis);
 
       //custom translations
       const labelsGWidth = state.svg.select('g.y-axis').node().getBoundingClientRect().width;
+      console.log(labelsGWidthm, 'labels width')
 
       state.xGrid.tickSize(state.graphH);
       state.svg.select('g.x-grid')
