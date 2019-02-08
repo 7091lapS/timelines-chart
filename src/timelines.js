@@ -829,7 +829,7 @@ export default Kapsule({
       state.svg.select('g.x-axis')
         .style('stroke-opacity', 0)
         .style('fill-opacity', 0)
-        .attr('transform', 'translate(0,' + state.graphH + ')')
+        .attr('transform', `translate(0,${-state.topMargin})`)
         .transition().duration(state.transDuration)
           .call(state.xAxis)
           .style('stroke-opacity', 1)
