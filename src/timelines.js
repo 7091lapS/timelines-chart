@@ -99,6 +99,7 @@ export default Kapsule({
     },
     width: { default: window.innerWidth },
     maxHeight: { default: 640 },
+    labelsGWidth: { default: 80 },
     maxLineHeight: { default: 12 },
     leftMargin: { default: 90 },
     rightMargin: { default: 100 },
@@ -877,7 +878,7 @@ export default Kapsule({
           .call(state.yAxis);
 
       //custom translations
-      const labelsGWidth = state.svg.select('g.y-axis').node().getBBox().width;
+      const labelsGWidth = state.labelsGWidth
       console.log(labelsGWidth, 'labels width')
 
       state.xGrid.tickSize(state.graphH);
