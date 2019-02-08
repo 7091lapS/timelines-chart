@@ -738,7 +738,7 @@ export default Kapsule({
         .attr('width', state.width)
         .attr('height', state.height);
 
-      state.graph.attr('transform', 'translate(' + state.leftMargin + ',' + state.topMargin + ')');
+      state.graph.attr('transform', 'translate(' + state.leftMargin + state.labelsGWidth + ',' + state.topMargin + ')');
 
       if (state.overviewArea) {
         state.overviewArea
@@ -813,7 +813,7 @@ export default Kapsule({
     function renderAxises() {
 
       state.svg.select('.axises')
-        .attr('transform', 'translate(' + state.leftMargin + ',' + state.topMargin + ')');
+        .attr('transform', 'translate(' + state.leftMargin + state.labelsGWidth +',' + state.topMargin + ')');
 
       // X
       state.xAxis
@@ -840,11 +840,11 @@ export default Kapsule({
        .attr('transform', 'translate(-10, 3) rotate(-60)');
        */
 
-      // state.xGrid.tickSize(state.graphH);
-      // state.svg.select('g.x-grid')
-      //   .attr('transform', 'translate(0,' + state.graphH + ')')
-      //   .transition().duration(state.transDuration)
-      //   .call(state.xGrid);
+      state.xGrid.tickSize(state.graphH);
+      state.svg.select('g.x-grid')
+        .attr('transform', 'translate(0,' + state.graphH + ')')
+        .transition().duration(state.transDuration)
+        .call(state.xGrid);
 
       if (
         state.dateMarker &&
@@ -877,17 +877,6 @@ export default Kapsule({
           .style('font-size', fontSize + 'px')
           .call(state.yAxis);
 
-      //custom translations
-      const labelsGWidth = state.labelsGWidth
-      console.log(labelsGWidth, 'labels width')
-
-      state.xGrid.tickSize(state.graphH);
-      state.svg.select('g.x-grid')
-        .attr('transform', 'translate(' + labelsGWidth + ',' + state.graphH + ')')
-        .transition().duration(state.transDuration)
-        .call(state.xGrid);
-
-
       // Grp
       const minHeight = d3Min(state.grpScale.range(), function (d,i) {
         return i>0?d-state.grpScale.range()[i-1]:d*2;
@@ -902,14 +891,14 @@ export default Kapsule({
         .call(state.grpAxis);
 
       // Make Axises clickable
-      if (state.onLabelClick) {
-        state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
-          .style('cursor', 'pointer')
-          .on('click', function(d) {
-            const segms = d.split('+&+');
-            state.onLabelClick(...segms.reverse());
-          });
-      }
+      // if (state.onLabelClick) {
+      //   state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
+      //     .style('cursor', 'pointer')
+      //     .on('click', function(d) {
+      //       const segms = d.split('+&+');
+      //       state.onLabelClick(...segms.reverse());
+      //     });
+      // }
 
       //
 
