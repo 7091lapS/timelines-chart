@@ -424,12 +424,12 @@ export default Kapsule({
       function addOverviewArea() {
         state.overviewArea = TimeOverview()
           .margins({ top: 1, right: 20, bottom: 20, left: 20 })
-          .onChange((startTime, endTime) => {
-            state.svg.dispatch('zoom', { detail: {
-              zoomX: [startTime, endTime],
-              zoomY: null
-            }});
-          })
+          // .onChange((startTime, endTime) => {
+          //   state.svg.dispatch('zoom', { detail: {
+          //     zoomX: [startTime, endTime],
+          //     zoomY: null
+          //   }});
+          // })
           .domainRange(state.zoomX)
           .currentSelection(state.zoomX)
           (state.overviewAreaElem.node());
@@ -501,90 +501,91 @@ export default Kapsule({
     }
 
     function addZoomSelection() {
-      state.graph.on('mousedown', function() {
-        if (d3Select(window).on('mousemove.zoomRect')!=null) // Selection already active
-          return;
+      // state.graph
+      // on('mousedown', function() {
+      //   if (d3Select(window).on('mousemove.zoomRect')!=null) // Selection already active
+      //     return;
 
-        const e = this;
+      //   const e = this;
 
-        if (d3Mouse(e)[0]<0 || d3Mouse(e)[0]>state.graphW || d3Mouse(e)[1]<0 || d3Mouse(e)[1]>state.graphH)
-          return;
+      //   if (d3Mouse(e)[0]<0 || d3Mouse(e)[0]>state.graphW || d3Mouse(e)[1]<0 || d3Mouse(e)[1]>state.graphH)
+      //     return;
 
-        state.disableHover=true;
+      //   state.disableHover=true;
 
-        const rect = state.graph.append('rect')
-          .attr('class', 'chart-zoom-selection');
+      //   const rect = state.graph.append('rect')
+      //     .attr('class', 'chart-zoom-selection');
 
-        const startCoords = d3Mouse(e);
+      //   const startCoords = d3Mouse(e);
 
-        d3Select(window)
-          .on('mousemove.zoomRect', function() {
-            d3Event.stopPropagation();
-            const newCoords = [
-              Math.max(0, Math.min(state.graphW, d3Mouse(e)[0])),
-              Math.max(0, Math.min(state.graphH, d3Mouse(e)[1]))
-            ];
-            rect.attr('x', Math.min(startCoords[0], newCoords[0]))
-              .attr('y', Math.min(startCoords[1], newCoords[1]))
-              .attr('width', Math.abs(newCoords[0] - startCoords[0]))
-              .attr('height', Math.abs(newCoords[1] - startCoords[1]));
+      //   d3Select(window)
+      //     .on('mousemove.zoomRect', function() {
+      //       d3Event.stopPropagation();
+      //       const newCoords = [
+      //         Math.max(0, Math.min(state.graphW, d3Mouse(e)[0])),
+      //         Math.max(0, Math.min(state.graphH, d3Mouse(e)[1]))
+      //       ];
+      //       rect.attr('x', Math.min(startCoords[0], newCoords[0]))
+      //         .attr('y', Math.min(startCoords[1], newCoords[1]))
+      //         .attr('width', Math.abs(newCoords[0] - startCoords[0]))
+      //         .attr('height', Math.abs(newCoords[1] - startCoords[1]));
 
-            state.svg.dispatch('zoomScent', { detail: {
-              zoomX: [startCoords[0], newCoords[0]].sort(d3Ascending).map(state.xScale.invert),
-              zoomY: [startCoords[1], newCoords[1]].sort(d3Ascending).map(d =>
-                state.yScale.domain().indexOf(state.yScale.invert(d))
-                + ((state.zoomY && state.zoomY[0])?state.zoomY[0]:0)
-              )
-            }});
-          })
-          .on('mouseup.zoomRect', function() {
-            d3Select(window).on('mousemove.zoomRect', null).on('mouseup.zoomRect', null);
-            d3Select('body').classed('stat-noselect', false);
-            rect.remove();
-            state.disableHover=false;
+      //       state.svg.dispatch('zoomScent', { detail: {
+      //         zoomX: [startCoords[0], newCoords[0]].sort(d3Ascending).map(state.xScale.invert),
+      //         zoomY: [startCoords[1], newCoords[1]].sort(d3Ascending).map(d =>
+      //           state.yScale.domain().indexOf(state.yScale.invert(d))
+      //           + ((state.zoomY && state.zoomY[0])?state.zoomY[0]:0)
+      //         )
+      //       }});
+      //     })
+      //     // .on('mouseup.zoomRect', function() {
+      //     //   d3Select(window).on('mousemove.zoomRect', null).on('mouseup.zoomRect', null);
+      //     //   d3Select('body').classed('stat-noselect', false);
+      //     //   rect.remove();
+      //     //   state.disableHover=false;
 
-            const endCoords = [
-              Math.max(0, Math.min(state.graphW, d3Mouse(e)[0])),
-              Math.max(0, Math.min(state.graphH, d3Mouse(e)[1]))
-            ];
+      //     //   const endCoords = [
+      //     //     Math.max(0, Math.min(state.graphW, d3Mouse(e)[0])),
+      //     //     Math.max(0, Math.min(state.graphH, d3Mouse(e)[1]))
+      //     //   ];
 
-            if (startCoords[0]==endCoords[0] && startCoords[1]==endCoords[1])
-              return;
+      //     //   if (startCoords[0]==endCoords[0] && startCoords[1]==endCoords[1])
+      //     //     return;
 
-            const newDomainX = [startCoords[0], endCoords[0]].sort(d3Ascending).map(state.xScale.invert);
+      //     //   const newDomainX = [startCoords[0], endCoords[0]].sort(d3Ascending).map(state.xScale.invert);
 
-            const newDomainY = [startCoords[1], endCoords[1]].sort(d3Ascending).map(d =>
-              state.yScale.domain().indexOf(state.yScale.invert(d))
-              + ((state.zoomY && state.zoomY[0])?state.zoomY[0]:0)
-            );
+      //     //   const newDomainY = [startCoords[1], endCoords[1]].sort(d3Ascending).map(d =>
+      //     //     state.yScale.domain().indexOf(state.yScale.invert(d))
+      //     //     + ((state.zoomY && state.zoomY[0])?state.zoomY[0]:0)
+      //     //   );
 
-            const changeX=((newDomainX[1] - newDomainX[0])>(60*1000)); // Zoom damper
-            const changeY=(newDomainY[0]!=state.zoomY[0] || newDomainY[1]!=state.zoomY[1]);
+      //     //   const changeX=((newDomainX[1] - newDomainX[0])>(60*1000)); // Zoom damper
+      //     //   const changeY=(newDomainY[0]!=state.zoomY[0] || newDomainY[1]!=state.zoomY[1]);
 
-            if (changeX || changeY) {
-              state.svg.dispatch('zoom', { detail: {
-                zoomX: changeX?newDomainX:null,
-                zoomY: changeY?newDomainY:null
-              }});
-            }
-          }, true);
+      //     //   if (changeX || changeY) {
+      //     //     state.svg.dispatch('zoom', { detail: {
+      //     //       zoomX: changeX?newDomainX:null,
+      //     //       zoomY: changeY?newDomainY:null
+      //     //     }});
+      //     //   }
+      //     // }, true);
 
-        d3Event.stopPropagation();
-      });
+      //   d3Event.stopPropagation();
+      // });
 
-      state.resetBtn = state.svg.append('text')
-        .attr('class', 'reset-zoom-btn')
-        .text('Reset Zoom')
-        .style('text-anchor', 'end')
-        .on('mouseup' , function() {
-          state.svg.dispatch('resetZoom');
-        })
-        .on('mouseover', function(){
-          d3Select(this).style('opacity', 1);
-        })
-        .on('mouseout', function() {
-          d3Select(this).style('opacity', .6);
-        });
+      // state.resetBtn = state.svg.append('text')
+      //   .attr('class', 'reset-zoom-btn')
+      //   .text('Reset Zoom')
+      //   .style('text-anchor', 'end')
+      //   .on('mouseup' , function() {
+      //     state.svg.dispatch('resetZoom');
+      //   })
+      //   .on('mouseover', function(){
+      //     d3Select(this).style('opacity', 1);
+      //   })
+      //   .on('mouseout', function() {
+      //     d3Select(this).style('opacity', .6);
+      //   });
     }
 
     function setEvents() {
