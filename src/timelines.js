@@ -877,7 +877,7 @@ export default Kapsule({
           .call(state.yAxis);
 
       //custom translations
-      const labelsGWidth = state.svg.select('g.y-axis').node().getBoundingClientRect().width;
+      const labelsGWidth = state.svg.select('g.y-axis').node().getBBox().width;
       console.log(labelsGWidth, 'labels width')
 
       state.xGrid.tickSize(state.graphH);
