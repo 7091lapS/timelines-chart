@@ -738,7 +738,7 @@ export default Kapsule({
         .attr('width', state.width)
         .attr('height', state.height);
 
-      state.graph.attr('transform', 'translate(' + state.leftMargin + state.labelsGWidth + ',' + state.topMargin + ')');
+      state.graph.attr('transform', `translate(${state.leftMargin + state.labelsGWidth},${state.topMargin})`);
 
       if (state.overviewArea) {
         state.overviewArea
@@ -813,7 +813,7 @@ export default Kapsule({
     function renderAxises() {
 
       state.svg.select('.axises')
-        .attr('transform', 'translate(' + state.leftMargin + state.labelsGWidth +',' + state.topMargin + ')');
+        .attr('transform', `translate(${state.leftMargin + state.labelsGWidth},${state.topMargin})`);
 
       // X
       state.xAxis
@@ -891,16 +891,16 @@ export default Kapsule({
         .call(state.grpAxis);
 
       // Make Axises clickable
-      // if (state.onLabelClick) {
-      //   state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
-      //     .style('cursor', 'pointer')
-      //     .on('click', function(d) {
-      //       const segms = d.split('+&+');
-      //       state.onLabelClick(...segms.reverse());
-      //     });
-      // }
+      if (state.onLabelClick) {
+        state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
+          .style('cursor', 'pointer')
+          .on('click', function(d) {
+            const segms = d.split('+&+');
+            state.onLabelClick(...segms.reverse());
+          });
+      }
 
-      //
+      
 
       function reduceLabel(label, maxChars) {
         return label.length<=maxChars?label:(
