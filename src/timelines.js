@@ -891,16 +891,16 @@ export default Kapsule({
         .call(state.grpAxis);
 
       // Make Axises clickable
-      if (state.onLabelClick) {
-        state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
-          .style('cursor', 'pointer')
-          .on('click', function(d) {
-            const segms = d.split('+&+');
-            state.onLabelClick(...segms.reverse());
-          });
-      }
+      // if (state.onLabelClick) {
+      //   state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
+      //     .style('cursor', 'pointer')
+      //     .on('click', function(d) {
+      //       const segms = d.split('+&+');
+      //       state.onLabelClick(...segms.reverse());
+      //     });
+      // }
 
-      
+      state.svg.select('.y-axis').attr('transform', `translate(${-(state.leftMargin + state.labelsGWidth)},0)`)
 
       function reduceLabel(label, maxChars) {
         return label.length<=maxChars?label:(
