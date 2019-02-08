@@ -491,7 +491,7 @@ export default Kapsule({
         .html(d => {
           const normVal = state.zColorScale.domain()[state.zColorScale.domain().length-1] - state.zColorScale.domain()[0];
           const dateFormat = (state.useUtc ? d3UtcFormat : d3TimeFormat)(`${state.timeFormat}${state.useUtc?' (UTC)':''}`);
-          return '<strong>' + d.labelVal + ' </strong>' + state.zDataLabel
+          return '<strong>' + d.labelVal + ' </strong>' + state.zDataLabel + '<br>'
             // + (normVal?' (<strong>' + Math.round((d.val-state.zColorScale.domain()[0])/normVal*100*100)/100 + '%</strong>)':'') + '<br>'
             + '<strong>From: </strong>' + dateFormat(d.timeRange[0]) + '<br>'
             + '<strong>To: </strong>' + dateFormat(d.timeRange[1]);
@@ -890,16 +890,6 @@ export default Kapsule({
         .style('font-size', fontSize + 'px')
         .call(state.grpAxis);
 
-      // Make Axises clickable
-      // if (state.onLabelClick) {
-      //   state.svg.selectAll('g.y-axis,g.grp-axis').selectAll('text')
-      //     .style('cursor', 'pointer')
-      //     .on('click', function(d) {
-      //       const segms = d.split('+&+');
-      //       state.onLabelClick(...segms.reverse());
-      //     });
-      // }
-
       state.svg.select('.y-axis').attr('transform', `translate(${-(state.leftMargin + state.labelsGWidth)},0)`)
 
       function reduceLabel(label, maxChars) {
@@ -931,7 +921,7 @@ export default Kapsule({
         .on('mouseout', state.groupTooltip.hide);
 
       newGroups.append('title')
-        .text('click-drag to zoom in');
+        // .text('click-drag to zoom in');
 
       groups = groups.merge(newGroups);
 
@@ -1025,10 +1015,10 @@ export default Kapsule({
             .attr('height', state.lineHeight)
             .style('fill-opacity', .8);
         })
-        .on('click', function (s) {
-          if (state.onSegmentClick)
-            state.onSegmentClick(s);
-        });
+        // .on('click', function (s) {
+        //   if (state.onSegmentClick)
+        //     state.onSegmentClick(s);
+        // });
 
       timelines = timelines.merge(newSegments);
 
