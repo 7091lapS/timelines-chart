@@ -491,7 +491,7 @@ export default Kapsule({
           const normVal = state.zColorScale.domain()[state.zColorScale.domain().length-1] - state.zColorScale.domain()[0];
           const dateFormat = (state.useUtc ? d3UtcFormat : d3TimeFormat)(`${state.timeFormat}${state.useUtc?' (UTC)':''}`);
           return '<strong>' + d.labelVal + ' </strong>' + state.zDataLabel
-            + (normVal?' (<strong>' + Math.round((d.val-state.zColorScale.domain()[0])/normVal*100*100)/100 + '%</strong>)':'') + '<br>'
+            // + (normVal?' (<strong>' + Math.round((d.val-state.zColorScale.domain()[0])/normVal*100*100)/100 + '%</strong>)':'') + '<br>'
             + '<strong>From: </strong>' + dateFormat(d.timeRange[0]) + '<br>'
             + '<strong>To: </strong>' + dateFormat(d.timeRange[1]);
         });
@@ -827,7 +827,7 @@ export default Kapsule({
       state.svg.select('g.x-axis')
         .style('stroke-opacity', 0)
         .style('fill-opacity', 0)
-        .attr('transform', 'translate(0,' + state.graphH + ')')
+        // .attr('transform', 'translate(0,' + state.graphH + ')')
         .transition().duration(state.transDuration)
           .call(state.xAxis)
           .style('stroke-opacity', 1)
@@ -872,9 +872,13 @@ export default Kapsule({
       state.yAxis.tickFormat(d => reduceLabel(d.split('+&+')[1], maxChars));
       state.svg.select('g.y-axis')
         .transition().duration(state.transDuration)
-          .attr('transform', 'translate(' + state.graphW + ', 0)')
+          // .attr('transform', 'translate(' + state.graphW + ', 0)')
           .style('font-size', fontSize + 'px')
           .call(state.yAxis);
+
+      //custom translations
+      const labelsGWidth = state.svg.select('g.y-axis').node().getBoundingClientRect().width;
+      state.svg.select('g.x-axis').attr('transform', 'translate(' + labelsGWidth + ',' + state.graphH + ')')
 
       // Grp
       const minHeight = d3Min(state.grpScale.range(), function (d,i) {
