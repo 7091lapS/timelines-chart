@@ -659,7 +659,7 @@ export default Kapsule({
     renderGroups();
 
     renderTimelines();
-    adjustLegend();
+    // adjustLegend();
 
     //
 
@@ -813,18 +813,19 @@ export default Kapsule({
     }
 
     function renderAxises() {
-
+      console.log(state.isMobile)
       state.svg.select('.axises')
         .attr('transform', `translate(${state.leftMargin + state.labelsGWidth},${state.topMargin})`);
 
       // X
       state.xAxis
         .scale(state.xScale)
-        .ticks(Math.round(state.graphW*0.0011))
+        // .ticks(state.isMobile ? 4 : Math.round(state.graphW*0.0011))
+        .ticks(state.isMobile ? 4 : null)
         .tickFormat(state.xTickFormat);
       state.xGrid
         .scale(state.xScale)
-        .ticks(state.xAxis.ticks()[0])
+        .ticks(state.isMobile ? 4 : state.xAxis.ticks()[0])
         .tickFormat('');
 
       state.svg.select('g.x-axis')
