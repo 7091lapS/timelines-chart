@@ -108,6 +108,7 @@ export default Kapsule({
     useUtc: { default: false },
     xTickFormat: {},
     dateMarker: {},
+    isMobile: { default: false },
     timeFormat: { default: '%Y-%m-%d %-I:%M:%S %p', triggerUpdate: false },
     zoomX: {  // Which time-range to show (null = min/max)
       default: [null, null],
@@ -894,12 +895,16 @@ export default Kapsule({
       state.svg.select('.y-axis').attr('transform', `translate(${-(state.leftMargin + state.labelsGWidth)},0)`)
 
       function reduceLabel(label, maxChars) {
+        if (state.isMobile) {
+          return label === 'Czech Republic' ? 'Czech R' : label === 'Dominican Republic' ? 'Dominican R' : label
+        } else {
+          return label
+        }
         // return label.length<=maxChars?label:(
         //   label.substring(0, maxChars*2/3)
         //   + '...'
         //   + label.substring(label.length - maxChars/3, label.length
         // ));
-        return label;
       }
     }
 
