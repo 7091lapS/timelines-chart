@@ -492,7 +492,7 @@ export default Kapsule({
         .html(d => {
           const normVal = state.zColorScale.domain()[state.zColorScale.domain().length-1] - state.zColorScale.domain()[0];
           const dateFormat = (state.useUtc ? d3UtcFormat : d3TimeFormat)(`${state.timeFormat}${state.useUtc?' (UTC)':''}`);
-          return '<div class="labelval-title">' + d.labelVal + ' </div>' + '<div class="labelval-populist">(' + state.zDataLabel + ')</div>' + '<br>'
+          return '<div class="labelval-title">' + d.labelVal + '</div>' + '<br>'
             // + (normVal?' (<strong>' + Math.round((d.val-state.zColorScale.domain()[0])/normVal*100*100)/100 + '%</strong>)':'') + '<br>'
             + `${dateFormat(d.timeRange[0])} - ${dateFormat(d.timeRange[1])}`;
         });
