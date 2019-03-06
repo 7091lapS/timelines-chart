@@ -125,9 +125,9 @@
   }
 
   function max(values, valueof) {
-    let max;
+    var max;
     if (valueof === undefined) {
-      for (let value of values) {
+      for (var value of values) {
         if (value != null
             && value >= value
             && (max === undefined || max < value)) {
@@ -135,8 +135,8 @@
         }
       }
     } else {
-      let index = -1;
-      for (let value of values) {
+      var index = -1;
+      for (var value of values) {
         if ((value = valueof(value, ++index, values)) != null
             && value >= value
             && (max === undefined || max < value)) {
@@ -148,9 +148,9 @@
   }
 
   function min(values, valueof) {
-    let min;
+    var min;
     if (valueof === undefined) {
-      for (let value of values) {
+      for (var value of values) {
         if (value != null
             && value >= value
             && (min === undefined || min > value)) {
@@ -158,8 +158,8 @@
         }
       }
     } else {
-      let index = -1;
-      for (let value of values) {
+      var index = -1;
+      for (var value of values) {
         if ((value = valueof(value, ++index, values)) != null
             && value >= value
             && (min === undefined || min > value)) {
@@ -5572,7 +5572,7 @@
       this._format = opts.format || rgb.format;
       this._gradientType = opts.gradientType;
 
-      // Don't let the range of [0,255] come back in [0,1].
+      // Don't var the range of [0,255] come back in [0,1].
       // Potentially lose a little bit of precision here, but will fix issues where
       // .5 gets interpreted as half of the total, instead of half of 1
       // If it was supposed to be 128, this was already taken care of by `inputToRgb`
@@ -6640,7 +6640,7 @@
 
       // Try to match string input using regular expressions.
       // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
-      // Just return an object and let the conversion functions handle that.
+      // Just return an object and var the conversion functions handle that.
       // This way the result will be the same whether the tinycolor is initialized with string or object.
       var match;
       if ((match = matchers.rgb.exec(color))) {
